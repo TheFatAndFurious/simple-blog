@@ -1,0 +1,2 @@
+- Create a slice that will take strings to dynamically create the navbar links
+- OR: for every page built, create a new link for the navbar
