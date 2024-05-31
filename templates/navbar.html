@@ -1,0 +1,14 @@
+{{ define "header" }}
+<div class="navbar bg-base-100">
+  <div class="flex-1">
+    <a class="btn btn-ghost text-xl">Un blog</a>
+  </div>
+  <div class="flex-none">
+    <ul class="menu menu-horizontal px-1">
+      {{ range .Links }}
+      <li><a href="{{.Path}}">{{ .Name }}</a></li>
+      {{ end }}
+    </ul>
+  </div>
+</div>
+{{ end }}

@@ -1,0 +1,14 @@
+{{ define "content" }}
+<body>
+  <header>
+    <h1>Articles du blog</h1>
+  </header>
+  <main>
+    <ul>
+      {{ range .Articles }}
+      <li><a href="{{.Path }}">{{.Title}}</a> - {{ .Date }}</li>
+      {{ end }}
+    </ul>
+  </main>
+</body>
+{{ end }}
