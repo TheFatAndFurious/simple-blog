@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	settings "simpleBlog/config"
+	"simpleBlog/internal"
 	"strings"
 	"time"
 
@@ -31,12 +32,17 @@ type Metadata struct {
 type IndexData struct {
 	Articles []Article
 	Title   string
+    Links []internal.MenuLink
 }
 
 func main() {
 
 
+    // POPULATE PUBLIC FOLDER USING CONFIGURATION FILE  
+    internal.InitPublic()
 
+    // CREATE THE DATA TO POPULATE THE MENU IN THE NAVBAR
+    linksList := internal.InitMenu()
 
     // Load templates
     articleTmpl := template.Must(template.ParseFiles("templates/base.html", "templates/article.html", "templates/navbar.html", "templates/footer.html", "templates/head.html"))
@@ -48,6 +54,7 @@ func main() {
         log.Fatal(err)
     }
 
+    test := filepath.Base("public/articles")    
     var articles []Article
     for _, file := range files {
         if filepath.Ext(file.Name()) == ".md" {
@@ -63,7 +70,7 @@ func main() {
                 Title:   metadata.Title,
                 Author:  metadata.Author,
                 Content: htmlContent,
-                Path:    articlePath,
+                Path:    "/" + test + "/" + articlePath,
                 Date:    parseDate(metadata.Date),
             }
             articles = append(articles, article) 
@@ -73,24 +80,23 @@ func main() {
             if err != nil {
                 log.Fatal(err)
             }
-            articleTmpl.Execute(f, article)
+            articleTmpl.Execute(f, article )
             f.Close()
         }
     }
-
+    
     // Generate index.html
-	indexData := IndexData {
-		Articles: articles,
+    indexData := IndexData {
+        Articles: articles,
         Title:    settings.BlogName,
-	}
-
+        Links: linksList,
+    }
     f, err := os.Create(filepath.Join("public", "index.html"))
     if err != nil {
         log.Fatal(err)
     }
     indexTmpl.Execute(f, indexData)
     f.Close()
-
 
 	staticDir := "public"		
 	cssDir := "static"

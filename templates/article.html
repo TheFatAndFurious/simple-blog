@@ -1,17 +1,9 @@
 {{define "content" }}
 
-<body>
-  <header>
-    <h1>{{ .Title }}</h1>
-    <h2>{{ .Author }}</h2>
-    <h2>{{ .Date }}</h2>
-  </header>
+<h1>{{ .Title }}</h1>
+<h2>{{ .Author }}</h2>
+<h2>{{ .Date }}</h2>
 
-  <main>{{ .Content }}</main>
-
-  <footer>
-    <p>&copy; TheFatAndFurious</p>
-  </footer>
-</body>
+<main>{{ .Content }}</main>
 
 {{end}}
